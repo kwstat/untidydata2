@@ -1,0 +1,36 @@
+---
+title: "Cost of journal publishing"
+author: "Kevin Wright"
+date: "4/15/2019"
+output: html_document
+vignette: |
+  % \VignetteIndexEntry{Cost of journal publishing} 
+  % \VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Data downloaded 15 Apr 2019 from https://figshare.com/articles/Wellcome_Trust_APC_spend_2012_13_data_file/963054.
+
+Inspiration from http://www.opiniomics.org/biologists-this-is-why-bioinformaticians-hate-you/
+                          
+```{r}
+library(readxl)
+datfile <- system.file("messydata", "University returns_for_figshare_FINAL.xlsx", package="untidydata2")
+dat <- read_excel(datfile)
+```
+
+First thing I always do when exploring data is change the variable names to be nice. No spaces, all lowercase, short, distinct. This makes typing more pleasant while exploring the data.
+
+```{r}
+names(dat)
+names(dat) <- c("id","publisher","journal","article","cost")
+head(dat)
+```
+
+The first column contains a weird collection of identification data.
+
+```{r}
+head(dat$id, 30)
+```
+
+There are backslashes. Sometimes a colon is used. Sometimes a space is used. There are either 0, 1, or 2 IDs. 
