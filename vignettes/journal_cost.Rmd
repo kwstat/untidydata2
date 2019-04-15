@@ -1,15 +1,15 @@
 ---
-title: "Cost of journal publishing"
+title: "Cost of publishing in journals"
 author: "Kevin Wright"
 date: "4/15/2019"
 output: html_document
 vignette: |
-  % \VignetteIndexEntry{Cost of journal publishing} 
+  % \VignetteIndexEntry{Cost of publishing in journals} 
   % \VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Data downloaded 15 Apr 2019 from https://figshare.com/articles/Wellcome_Trust_APC_spend_2012_13_data_file/963054.
+This data was downloaded 15 Apr 2019 from https://figshare.com/articles/Wellcome_Trust_APC_spend_2012_13_data_file/963054.
 
 Inspiration from http://www.opiniomics.org/biologists-this-is-why-bioinformaticians-hate-you/
                           

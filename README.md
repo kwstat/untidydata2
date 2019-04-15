@@ -3,6 +3,11 @@ Untidydata2
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+# Vignettes
+
+[Cost of publishing in
+journals](https://rawgit.com/kwstat/untidydata2/master/vignettes/journal_cost.html)
+
 # untidydata2
 
 The goal of untidydata2 is to provide a collection of untidy data, and

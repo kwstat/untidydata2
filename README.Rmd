@@ -5,6 +5,12 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+
+# Vignettes
+
+[Cost of publishing in journals](https://rawgit.com/kwstat/untidydata2/master/vignettes/journal_cost.html)
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
