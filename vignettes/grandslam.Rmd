@@ -9,6 +9,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+A lot of the code here was originally written by Thomas Mock for the Tidy Tuesday activity on April 9, 2019. The code can be found [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2019/2019-04-09/tennis_pros.rmd). To see the code used to scrape the data from Wikipedia and get it into R, see the Appendix.
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -16,13 +18,24 @@ knitr::opts_chunk$set(
 )
 ```
 
-We will start from the dataset grandslaw_raw, which . 
-
+## The data
+We will start from the dataset `grandslam_messy`, which is a messy dataset with several issues. 
 ```{r}
-#dat<-grandslam_raw
+head(raw_slams)
+```
 
-#datfile <- system.file("messydata", "University returns_for_figshare_FINAL.xlsx", #package="untidydata2")
-#dat <- read_excel(datfile)
+## The issues
+The main issues we want to address are
+
+## Tidying the data
+First, ...
+```{r}
+dat<-grandslam_raw
+
+
+# As a last step, make a data dictionary.
+# This code creates a shell of documentation for the grandslam_messy dataset
+# promptData(grandslam_messy, file = 'man/')
 ```
 
 Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
@@ -73,18 +86,23 @@ Also a quote using `>`:
 > "He who gives up [code] safety for [code] speed deserves neither."
 ([via](https://twitter.com/hadleywickham/status/504368538874703872))
 
-
-# Appendix
-Here are some preliminary 
+## Make a data dictionary for my data
+ Run `?grandslam_messy` to see the data dictionary. 
+ 
+## Appendix
+The raw data was downloaded on April 15, 2019 from Wikipedia using the code below. 
 ```{r, eval= F}
-# save this into messydata
+# Pull data from wikipedia and save it into the messydata folder
 library(textreadr)
-raw_slams <- read_html("https://en.wikipedia.org/wiki/List_of_Grand_Slam_women%27s_singles_champions") 
-write.table()
+library(rvest)
+library(janitor)
 
-# raw_slams.txt is a character vector 
-# We will use a couple 
-raw_slams<-
-  
-grandslam_raw<-
+grandslam_messy<-
+  read_html("https://en.wikipedia.org/wiki/List_of_Grand_Slam_women%27s_singles_champions") %>%
+  html_table(fill = TRUE) %>% 
+  .[[3]] %>% 
+  janitor::clean_names()  
+
+write.table(grandslam_messy, file = 'grandslam_messy.txt')
 ```
+
