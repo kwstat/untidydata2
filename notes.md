@@ -15,6 +15,11 @@ https://toolbox.google.com/datasetsearch
 https://data.nal.usda.gov/about-ag-data-commons
 
 
+### Data is Plural
+https://docs.google.com/spreadsheets/d/1wZhPLMCHKJvwOkP4juclhjFgqIY8fQFMemwKL2c64vk/edit
+
+Hundreds of datasets about every possible topic.
+
 ### DataDryad
 http://datadryad.org/
 
@@ -53,4 +58,5 @@ https://opendata.stackexchange.com/questions/1850/collection-of-messy-data
 
 ### Wolfram Data Repository 
 https://datarepository.wolframcloud.com/
+
 

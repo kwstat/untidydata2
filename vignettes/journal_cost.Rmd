@@ -2,14 +2,15 @@
 title: "Cost of publishing in journals"
 author: "Kevin Wright"
 date: "4/15/2019"
-output: html_document
-vignette: |
-  % \VignetteIndexEntry{Cost of publishing in journals} 
-  % \VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  html_document: default
+  pdf_document: default
+bibliography: bibinfo.bib
+vignette: "% \\VignetteIndexEntry{Cost of publishing in journals} \n% \\VignetteEngine{knitr::rmarkdown}\n%\\VignetteEncoding{UTF-8}\n"
 ---
 
 This data was downloaded 15 Apr 2019 from https://figshare.com/articles/Wellcome_Trust_APC_spend_2012_13_data_file/963054.
+See @Kiley2014wellcome. License: CC-BY.
 
 Inspiration from http://www.opiniomics.org/biologists-this-is-why-bioinformaticians-hate-you/
                           
@@ -33,4 +34,74 @@ The first column contains a weird collection of identification data.
 head(dat$id, 30)
 ```
 
-There are backslashes. Sometimes a colon is used. Sometimes a space is used. There are either 0, 1, or 2 IDs. 
+There are backslashes. Sometimes a colon is used. Sometimes a space is used. The data is a mess.  Let's have a look at all the non-numeric strings:
+
+```{r}
+library(dplyr)
+library(stringr)
+unique(str_extract(dat$id, "\\D*"))
+```
+
+Maybe there's a better way to do this, but at this point I just start working through the problems, trying to get some consistency to the point that we'll be able to extract the numeric value of the ID. Note that PMCID and PMID are different, and some of the journal articles have both like this: "PMID:21940062 PMC3814186".
+
+```{r}
+dat0=dat
+dat=dat0
+dat <- mutate(dat, id=str_replace(id, "\\r\\n", ""))
+dat <- mutate(dat, id=str_replace(id, "PMCID: *PMC", "PMCID:PMC"))
+dat <- mutate(dat, id=str_replace(id, "\\(PMCID:PMC", "PMCID:PMC"))
+dat <- mutate(dat, id=str_replace(id, "PMC in progress", ""))
+dat <- mutate(dat, id=str_replace(id, "Pending PMID", ""))
+dat <- mutate(dat, id=str_replace(id, "PMID :", "PMID:"))
+dat <- mutate(dat, id=str_replace(id, "PMCID:ID is PMC", ""))
+dat <- mutate(dat, id=str_replace(id, "PMC ", "PMC"))
+dat <- mutate(dat, id=str_replace(id, "PMC:", "PMC"))
+dat <- mutate(dat, id=str_replace(id, ": PMC", "PMC"))
+dat <- mutate(dat, id=str_replace(id, "PMCID: ", "PMCID:"))
+dat <- mutate(dat, id=str_replace(id, "    PMC", "PMC"))
+dat <- mutate(dat, id=str_replace(id, "PMID: ", "PMID:"))
+# unique(str_extract(dat$id, "PMCID:PMC.*")) # PMCID: is redundant
+dat <- mutate(dat, id=str_replace(id, "PMCID:PMC", "PMC"))
+# unique(str_extract(dat$id, "PMCID:.*"))
+dat <- mutate(dat, id=str_replace(id, "PMCID:", "PMC"))
+# unique(str_extract(dat$id, "PMCID.*"))
+dat <- mutate(dat, id=str_replace(id, "PMCID", "PMC"))
+# unique(str_extract(dat$id, "PMCID.*"))
+# Now focus on PMID
+# unique(str_extract(dat$id, "PMID.*"))
+dat <- mutate(dat, id=str_replace(id, "PMID:", "PMID"))
+# Inspect all PMID and PMCID strings. They look clean for extraction.
+# unique(str_extract(dat$id, "PMC.*"))
+# unique(str_extract(dat$id, "PMID.*"))
+```
+
+Now we extract the numeric values of the IDs
+```{r}
+dat <- mutate(dat, pmc=str_extract(id, "PMC[:digit:]*"),
+              pmid=str_extract(id, "PMID[:digit:]*"))
+```
+
+
+Whew, that was a lot of work.  Unfortunately, the publisher names are an even bigger mess.  Here are a few examples (assuming the publisher names are not mis-spelled!):
+
+```{r}
+unique(na.omit(str_extract(dat$publisher, regex("biomed central.*", ignore_case=TRUE))))
+unique(na.omit(str_extract(dat$publisher, regex("american chemical society.*", ignore_case=TRUE))))
+unique(na.omit(str_extract(dat$publisher, regex("elsevier.*", ignore_case=TRUE))))
+```
+
+At this point, in the spirit of getting things done fast (if not elegantly), I would probably perform the following steps:
+1. Extract all the unique publisher values
+2. Export to a CSV file called "publishers_cleaned.csv"
+3. Open the CSV file in Excel (or other tool)
+4. Add a second-column with my hand-entered, best-judgement of a standard publisher name
+5. Bring the data back into R
+6. Lookup the original publisher name in the `publishers_cleaned` data and return the standard name.
+
+Again, it's not elegant, and it would not scale up very well to the journal names (which have even more categories!).
+
+Eventually, we might like to look at how costs vary among publishers.  For now, here's a simple density plot of all the article costs.
+
+```{r}
+plot(density(dat$cost), main="Density of article costs")
+```
