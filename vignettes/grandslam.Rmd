@@ -21,11 +21,16 @@ knitr::opts_chunk$set(
 ## The data
 We will start from the dataset `grandslam_messy`, which is a messy dataset with several issues. 
 ```{r}
-head(raw_slams)
+head(grandslam_messy)
 ```
 
 ## The issues
-The main issues we want to address are
+The main issues we want to address are 
+1. We have one row for each year, one column for each tournament, and the name of the winner in each cell. Depending on the method we are going to use, we would want either one row for each unique tournament/year combination or one row for each tennis player. 
+
+2. Sometimes two data items are in the same cell, for example, `Maud Watson (1/2)` indicates that Maud Watson won 1884 Wimbleton, but also this was her first win out of two lifetime wins. Or, in line 85, all of this appears in one cell: `Open era tennis begins  Nancy Richey (2/2)`  
+
+3. Sometimes a cell contains a string that is not a winner's name, e.g. `tournament not created` or `World WarI`
 
 ## Tidying the data
 First, ...
