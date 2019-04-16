@@ -1,0 +1,94 @@
+---
+title: "Hypoxia Details"
+author: "Giorgi Chighladze"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    keep_md: true
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Data do not always come in a format that you can readily use for analysis. Some cleaning and restructuring of data is often needed despite of the size of the dataset.
+
+## Data 
+
+This [data](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-09-18) was downloaded 15 Apr 2019 from [TidyTuesday](https://github.com/rfordatascience/tidytuesday).
+
+NEED SOME DESCRIPTION OF THE DATA and PROBLEMS IT HAS...
+
+Before looking at the data, make sure that we do not missinterpret any entry when reading the file. For csv and txt files it is safe to read each columns as text. Also, it is good practice to read only the first few rows (5 in this case) of data for this purpose. 
+
+```{r, warning=FALSE,comment=FALSE, message=FALSE}
+library(tidyverse)
+datfile <- system.file("messydata", "hypoxia.csv", package="untidydata2")
+read_csv(datfile, col_types = cols(.default = "c"), n_max = 5) %>%
+  knitr::kable()
+```
+
+## Problems
+
+There are several problems that one can note at first glance. 
+
+- variable description is included in the first row 
+- column names contain spaces and symbols 
+- first column is redandant and inaccurate (first row is assigned 1, even though it does not represent an observation)
+- variable 'Altitude' contains two values in different units and non-numeric record ('Sea level')
+- last three variables are the same as previous 3 columns, but at different oxygen content (percentge)
+
+
+## Tidying Data
+
+First we need to fix the variable names. The best way is to manually define each variable name after reading the data without column names. Since the last 6 columns represent the same variable measured at different oxygen levels, we will incorporate this piece of info in the variable names (and use later when reshaping the data).
+
+```{r}
+data <- read_csv(datfile, 
+                 col_types = cols(.default = "?"), 
+                 col_names = FALSE,
+                 skip = 2) %>% 
+  # remove first cloumn 
+  select(-1) %>% 
+  # set names of variables 
+  set_names(c('altitude', 'air_pressure', 'ppO2', 
+              'alveoli_pO2-21', 'sturation_O2-21', 'alveoli_pCO2-21',
+              'alveoli_pO2-100', 'sturation_O2-100', 'alveoli_pCO2-100'))
+```
+
+After reading the data we will address remaining problems listed as follow: 
+
+```{r}
+tidy_data <- data %>%
+  # set 'Sea level' as 0 ft and 0 m in format matching the other records in altitude
+  mutate(altitude = ifelse(altitude == 'Sea level', '0k/0k', altitude)) %>%
+  # split altitude data into columns corresponding to each unit of measurement
+  separate(altitude, into = c('altitude_ft', 'altitude_m'), sep = '/') %>%
+  # convert altitude into numeric data by taking into account k
+  mutate_at(vars(starts_with('altitude')), parse_number) %>%
+  mutate_at(vars(starts_with('altitude')), funs(. * 1000)) %>%
+  # handle last 6 columns
+  gather(key, value, 5:10) %>%
+  # extract oxygen level (that was incorporated into the variable name earlier)
+  separate(key, into = c('variable', 'O2'), sep = '-', convert = TRUE) %>%
+  spread(variable, value) %>%
+  arrange(O2, altitude_ft)
+
+knitr::kable(tidy_data)
+```
+
+
+
+## Figures
+
+Lets plot the data. 
+
+```{r, fig.show = 'hold', fig.width = 5 }
+tidy_data %>%
+  mutate(O2 = factor(O2, levels = c(21, 100), labels = c('21%', '100%'))) %>%
+  ggplot(aes(x = alveoli_pO2, y = altitude_m)) +
+  geom_point(aes(colour = O2), na.rm = TRUE) +
+  theme_light()
+```
+
+
