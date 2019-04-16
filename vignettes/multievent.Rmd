@@ -1,0 +1,108 @@
+---
+title: "Preparing multiple event data for analysis"
+author: "Anne Eaton"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(knitr)
+library(tidyverse)
+```
+
+There are many approaches for analyzing data that tracks multiple events ocurring over time, either multiple types of events or repeated ocurrences of the same type of event. The great news is that most of these approaches are implemented in R packages. The not-as-great news is that different packages expect your data to be input in different formats. The aim of this vignette is to show you how to use `dplyr` to get your data into the format needed for common approaches and packages for multievent data.
+
+## Wide data
+We will start from "wide" data. In this data, each row is a patient. `ID` represents a unique patient ID. Each patient had up to 8 clinic visits, and `t1` through `t8` represent the time from enrollment until each clinic visit (in days). `x1` through `x8` represent the patient's status at time of the correpsonding visit, with `1` indicating that the patient was progression free and `2` representing the patient had experienced progression. (For patients that had fewer that 8 visits, the `t.` and `x.` varaibles are filled in with `NA`.) `dtime` represents the time (in days) from enrollment until the patient died or was lost to followup, and `dstatus` is an indicator for death. Patients with `dstatus`=1 diead at their `dtime` time. Patients with `dstatus`=0 were followed until their `dtime` time and were still alive at that time, but we don't know what happened to them after that. 
+```{r}
+datfile <- system.file("messydata", "multievent.csv", package="untidydata2")
+multievent<-read.csv(datfile)
+```
+```{r, echo=F}
+kable(head(multievent))
+```
+
+## survival package - overall survival endpoint
+The `survival` package is most often used to make Kaplan-Meier curves and fit Cox models for a single event per person. The input dataset should have one row per person, which is the format our data is currently in. To analyze time to death, ignoring progression, we already have the variables we need, `dtime` and `dstatus`. These will play the roles of `time` and `event` in the creation of a survival object via the function `Surv`. 
+```{r, echo=F}
+kable(head(multievent[,c('ID','dtime','dstatus')]))
+```
+
+## survival package - observed progression-free survival endpoint
+Composite endpoints are often used to analyze data with multiple event types. In this dataset, we may be interested in defining a progression/death composite endpoint. To analyze this endpoint, we still need a dataset with one row per patient; all we need to do is define two new variables, which we will call `opfstime` and `opfsevent`. `opfstime` represents, for each patient, the earliest of either death or observed progression, and `opfsevent` represents an indicator variable that is equal to 1 if a patient progression or died, and equal to 0 if they were alive and progression free at the end of followup. 
+```{r}
+multievent %>% 
+  gather("","",)
+  mutate(opfstime = cummin(t1:t8, dtime, na.rm = T)) 
+
+  multievent %>% gather(key, value, t1:x8) %>% mutate(visit = parse_number(key), type = str_sub(key, 1, 1), key = NULL) %>% spread(type, value) %>% as.tibble() 
+  
+```
+
+```{r, echo=F}
+kable(head(multievent[,c('ID','dtime','dstatus')]))
+```
+## msm package
+
+## reReg package
+
+## reda package
+
+## interval censored package? hl and hr?
+
+
+Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+
+- Never uses retina figures
+- Has a smaller default figure size
+- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+
+## Vignette Info
+
+Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+
+## Styles
+
+The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+
+    output: 
+      rmarkdown::html_vignette:
+        css: mystyles.css
+
+## Figures
+
+The figure sizes have been customised so that you can easily put two images side-by-side. 
+
+```{r, fig.show='hold'}
+plot(1:10)
+plot(10:1)
+```
+
+You can enable figure captions by `fig_caption: yes` in YAML:
+
+    output:
+      rmarkdown::html_vignette:
+        fig_caption: yes
+
+Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+
+## More Examples
+
+You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(mtcars, 10))
+```
+
+Also a quote using `>`:
+
+> "He who gives up [code] safety for [code] speed deserves neither."
+([via](https://twitter.com/hadleywickham/status/504368538874703872))
