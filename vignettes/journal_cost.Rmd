@@ -98,7 +98,7 @@ At this point, in the spirit of getting things done fast (if not elegantly), I w
 5. Bring the data back into R
 6. Lookup the original publisher name in the `publishers_cleaned` data and return the standard name.
 
-Again, it's not elegant, and it would not scale up very well to the journal names (which have even more categories!).
+Again, it's not elegant, and it would not scale up very well to the journal names (which have even more categories!). There is actually an add-in tool in Excel which can help with this task: https://www.microsoft.com/en-us/research/project/transform-data-by-example/.
 
 Eventually, we might like to look at how costs vary among publishers.  For now, here's a simple density plot of all the article costs.
 
