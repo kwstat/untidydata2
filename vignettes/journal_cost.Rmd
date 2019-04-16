@@ -2,11 +2,12 @@
 title: "Cost of publishing in journals"
 author: "Kevin Wright"
 date: "4/15/2019"
-output:
-  html_document: default
-  pdf_document: default
+output: html_vignette
 bibliography: bibinfo.bib
-vignette: "% \\VignetteIndexEntry{Cost of publishing in journals} \n% \\VignetteEngine{knitr::rmarkdown}\n%\\VignetteEncoding{UTF-8}\n"
+vignette: >
+  %\VignetteIndexEntry{Cost of publishing in journals}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 This data was downloaded 15 Apr 2019 from https://figshare.com/articles/Wellcome_Trust_APC_spend_2012_13_data_file/963054.
@@ -16,7 +17,7 @@ Inspiration from http://www.opiniomics.org/biologists-this-is-why-bioinformatici
                           
 ```{r}
 library(readxl)
-datfile <- system.file("messydata", "University returns_for_figshare_FINAL.xlsx", package="untidydata2")
+datfile <- system.file("messydata", "University_returns_for_figshare_FINAL.xlsx", package="untidydata2")
 dat <- read_excel(datfile)
 ```
 

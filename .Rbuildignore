@@ -1,3 +1,7 @@
 ^untidydata2\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^notes\.md$

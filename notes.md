@@ -73,3 +73,8 @@ https://datarepository.wolframcloud.com/
 Wrangling Messy Spreadsheets into Useable Data,
 Georges Monette and Heather Krause.
 http://nross626.math.yorku.ca/MATH6635/2016/Day11R/Messy_data.html
+
+Tidy untidy United Nations' migration data with tidyr
+https://blog.exploratory.io/tidy-untidy-united-nations-migration-data-with-tidyr-167cbd24c5c2
+
+https://www.r-bloggers.com/cleaning-and-visualizing-genomic-data-a-case-study-in-tidy-analysis/

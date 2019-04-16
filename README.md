@@ -5,8 +5,9 @@ Untidydata2
 
 # Vignettes
 
-[Cost of publishing in
-journals](https://rawgit.com/kwstat/untidydata2/master/vignettes/journal_cost.html)
+1.  “Cost of publishing in journals”
+2.  “US GDP”
+3.  “Hypoxia”
 
 # untidydata2
 
@@ -21,8 +22,4 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(untidydata2)
-## basic example code
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
