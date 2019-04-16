@@ -24,7 +24,7 @@ There are many approaches for analyzing data that tracks multiple events ocurrin
 We will start from "wide" data. In this data, each row is a patient. `ID` represents a unique patient ID. Each patient had up to 8 clinic visits, and `t1` through `t8` represent the time from enrollment until each clinic visit (in days). `x1` through `x8` represent the patient's status at time of the correpsonding visit, with `1` indicating that the patient was progression free and `2` representing the patient had experienced progression. (For patients that had fewer that 8 visits, the `t.` and `x.` varaibles are filled in with `NA`.) `dtime` represents the time (in days) from enrollment until the patient died or was lost to followup, and `dstatus` is an indicator for death. Patients with `dstatus`=1 diead at their `dtime` time. Patients with `dstatus`=0 were followed until their `dtime` time and were still alive at that time, but we don't know what happened to them after that. 
 ```{r}
 datfile <- system.file("messydata", "multievent.csv", package="untidydata2")
-multievent<-read.csv(datfile)
+multievent<-as.tibble(read.csv(datfile))
 ```
 ```{r, echo=F}
 kable(head(multievent))
@@ -39,70 +39,47 @@ kable(head(multievent[,c('ID','dtime','dstatus')]))
 ## survival package - observed progression-free survival endpoint
 Composite endpoints are often used to analyze data with multiple event types. In this dataset, we may be interested in defining a progression/death composite endpoint. To analyze this endpoint, we still need a dataset with one row per patient; all we need to do is define two new variables, which we will call `opfstime` and `opfsevent`. `opfstime` represents, for each patient, the earliest of either death or observed progression, and `opfsevent` represents an indicator variable that is equal to 1 if a patient progression or died, and equal to 0 if they were alive and progression free at the end of followup. 
 ```{r}
-multievent %>% 
-  gather("","",)
-  mutate(opfstime = cummin(t1:t8, dtime, na.rm = T)) 
-
-  multievent %>% gather(key, value, t1:x8) %>% mutate(visit = parse_number(key), type = str_sub(key, 1, 1), key = NULL) %>% spread(type, value) %>% as.tibble() 
-  
+multievent %>%
+# Make two variables. The one called "key" stores the variable names "t1","t2", up to "x8" . The one called "value" stores the corresponding values, number of days or status (1/2). 
+  gather(key, value, t1:x8) %>%
+# Define the variable "visit" by pulling the number from the string in key
+  mutate(visit = parse_number(key),
+# Define the varialbe "type" by pulling the letter from the string in key
+         type = str_sub(key, 1, 1),
+# Delete the key variable
+         key = NULL) %>%
+# Make a new column for each unique value of type, x or t, and make the value of the new variable equal to value 
+  spread(type, value) %>%
+# Replace NAs in x (indicating no visit) with 0
+  mutate(x = ifelse(is.na(x), 0, x)) %>%
+# Group by ID and status at visit
+  group_by(ID, x) %>%
+# Make a counter variable which counts up from 1 within each ID/status group
+  mutate(count = 1:n()) %>%
+# Only keep the first row within each ID/status group
+  filter(count == 1) %>%
+# Redefine grouping to be by ID only
+  group_by(ID) %>%
+# Keep only rows for each person's max status. If they ever had 2, we will have that row. Otherwise, we will have have a single row for each person with status 0 or 1. 
+  filter(x == max(x)) %>%
+# Take out the x and count variables. 
+  select(ID, dtime, dstatus, t) %>%
+# Define the opfstime and opfsevent variables.   
+  mutate(opfstime = ifelse(is.na(t), dtime, t), 
+         opfsevent = ifelse(!is.na(t), 1, dstatus)) -> composite
 ```
 
 ```{r, echo=F}
-kable(head(multievent[,c('ID','dtime','dstatus')]))
+kable(head(composite[,c('ID','opfstime','opfsevent')]))
 ```
+
+```{r, echo =F, eval = F}
 ## msm package
+The msm package things of the data as arising from a Markov chain where 
 
 ## reReg package
 
 ## reda package
 
-## interval censored package? hl and hr?
-
-
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
-
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
-
-## Vignette Info
-
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
-
-## Styles
-
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
-
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
-
-## Figures
-
-The figure sizes have been customised so that you can easily put two images side-by-side. 
-
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+## icenReg package
 ```
-
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
