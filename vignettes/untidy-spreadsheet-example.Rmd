@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 I created an untidy spreadsheet of simulated sales data for a company with multiple locations in Indiana. The document presents several challenges we often encounter with real spreadsheets, including:
 
-* Separate sheets (tabs) for each year of the data
+* Separate sheets (tabs) for groups in the data (in this case year)
 * Multiple header rows, including one with "merged cells"
 * Repeated headers within the same sheet
 * Number of columns varies by sheet
@@ -28,11 +28,11 @@ The document contains 10 sheets (tabs), so coding them one-by-one isn't very app
 
 Before we create an automated solution, let's start by manually processing a representative sheet so we can figure out what we need to automate.
 
-Opening the document in your favorite spreadsheet software, we see that the first few sheets contain data for just one location, Noblesville. Sheet 7 (for 2016) looks like a good one to work with because it has data for multiple locations.
+Open the document in your favorite spreadsheet software and you'll see that the first few sheets contain data for just one location, Noblesville. Later sheets contain data for more than one location. Sheet 7 (for 2016) looks like a good one to work with because it has data for multiple locations.
 
 Notice that the location names are in cells that have been merged and centered, and there are price and quantity columns for each of the locations. Also notice that data for the last location, South Bend, is missing for the first several rows.
 
-```{r}
+```{r echo=FALSE}
 knitr::include_graphics("untidy-spreadsheet.png")
 ```
 
@@ -64,7 +64,7 @@ locations <- read_excel(file_name, sheet = "2016", n_max = 0) %>%
 locations
 ```
 
-Now we have a character vector of locations. Let's read data from the 2016 sheet, skipping the first row this time.
+Now we have a character vector of locations. Let's read the rest of the data from the 2016 sheet, skipping the first row this time.
 
 ```{r message=FALSE}
 read_excel(file_name, sheet = "2016", skip = 1)
@@ -112,29 +112,64 @@ data_2016 <- read_excel(file_name, sheet = "2016", skip = 1) %>%
 data_2016
 ```
 
-Finally, let's extract location, price, and quanity variables. This is probably the trickiest part of tidying this data because it involves gathering multiple variables and then spreading them again. We also add the year and order the variables.
+### The trickiest part of tidying this data
+
+Finally, let's extract location, price, and quanity variables. This is the trickiest part of tidying this data because it involves gathering multiple variables and then spreading them again. We also add the year and order the variables.
 
 ```{r}
-data_2016 <- data_2016 %>%
+data_2016 %>%
   gather(-month, -day, key = "label", value = "value") %>%
   separate(label, into = c("type", "location"), sep = "_") %>%
   spread(key = "type", value = "value") %>%
+  filter(!is.na(price) | !is.na(quantity)) %>%
   mutate(year = 2016) %>%
   select(year, month, day, location, price, quantity)
-data_2016
 ```
 
+Whoa, there is a lot going on there! Let's do that again and look at the intermediate results.
+
+### One more time with intermediate results
+
+First we gather the location/price/quantity columns into `label` and `value` variables.
+
+```{r}
+step1 <- data_2016 %>%
+  gather(-month, -day, key = "label", value = "value")
+head(step1)
+tail(step1)
+```
+
+Then we can separate `location` into its own variable, while maintaining a `type` variable to distinguish `price` and `quantity`.
+
+```{r}
+step2 <- step1 %>%
+  separate(label, into = c("type", "location"), sep = "_")
+head(step2)
+tail(step2)
+```
+
+Now we can move `price` and `quantity` into their own variables using `tidyr::spread`.
+
+```{r}
+step3 <- step2 %>%
+  spread(key = "type", value = "value")
+step3
+```
+
+Finally, we filter out NA values, add the year, and reorder the variables.
+
+```{r}
+step3 %>%
+  filter(!is.na(price) | !is.na(quantity)) %>%
+  mutate(year = 2016) %>%
+  select(year, month, day, location, price, quantity)
+```
 
 This looks good, but it's just one sheet. Now let's write some code to process the whole spreadsheet document.
 
-We'll need a vector of sheet names for the spreadsheet document.
+### A function to read any specified sheet from the document
 
-```{r}
-sheets <- excel_sheets(file_name)
-sheets
-```
-
-And here is a function that combines everything we've done above to read any specified sheet from the document. It also handles the simpler special case when a sheet contains only a single location, and it removes the rows with NA values like the ones we saw for South Bend above.
+Here is a function that combines everything we've done above to read any specified sheet from the document. It also handles the simpler special case when a sheet contains only a single location.
 
 ```{r message=FALSE}
 read_sheet <- function(file_name, sheet) {
@@ -176,6 +211,17 @@ read_sheet <- function(file_name, sheet) {
 read_sheet(file_name, "2016")
 ```
 
+The hard part is done. Now let's read and combine all the sheets.
+
+### Reading all the sheets into one tidy data frame
+
+Start with a vector of sheet names for the spreadsheet document.
+
+```{r}
+sheets <- excel_sheets(file_name)
+sheets
+```
+
 Now we use `purrr::map_dfr` to read a data frame for each sheet and combine them into a single data frame.
 
 ```{r, message=FALSE}
@@ -184,4 +230,48 @@ head(combined_df)
 tail(combined_df)
 ```
 
-It was a lot of work, we now have a tidy data frame containing all of the data from the spreadsheet.
+At least the last step was easy!
+
+We now have a tidy data frame containing all of the data from the spreadsheet.
+
+## Bonus material: Simpson's Paradox
+
+The main point of this vignette is to show how to tidy data an untidy spreadsheet. But let's take just a few more minutes to look at the data.
+
+First, let's plot `price` and `quantity`.
+
+```{r}
+combined_df %>%
+  ggplot(aes(price, quantity)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+Based on this plot, it appears higher prices are associated with greater quantities sold. Should management consider raising prices? Based on this plot, it doesn't look like higher prices would cause reduced sales.
+
+If we look at individual locations, we see something quite different.
+
+```{r}
+combined_df %>%
+  ggplot(aes(price, quantity)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ location)
+```
+
+When locations are considered separately, higher prices are associated with lower quantities sold, as we would normally expect. The only exception appears to be Noblesville. Noblesville is this fictitious company's oldest location. We have data for Noblesville from 2010 to the present.
+
+Let's look at Noblesville by year.
+
+```{r}
+combined_df %>%
+  filter(location == "Noblesville") %>%
+  ggplot(aes(price, quantity)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  facet_wrap(~ year)
+```
+
+So higher prices are associated with lower quantities even for Noblesville if we look at shorter time periods like a year.
+
+This phenomen where an association appears to exist in data, but disappears or even reverses when groups are analyzed separately, is known as [Simpson's Paradox](https://en.wikipedia.org/wiki/Simpson's_paradox). You can read more about at the link.
