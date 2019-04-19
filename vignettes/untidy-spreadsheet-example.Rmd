@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Working with untidy spreadsheet data
 
-I created an untidy spreadsheet of simulated sales data for a company with multiple locations in Indiana. The document presents several challenges we often encounter with real spreadsheets, including:
+This vignette is about working with an untidy spreadsheet of simulated sales data for a fictitious company with multiple locations in Indiana. The document presents several challenges we often encounter with real spreadsheets, including:
 
 * Separate sheets (tabs) for groups in the data (in this case year)
 * Multiple header rows, including one with "merged cells"
@@ -64,7 +64,7 @@ locations <- read_excel(file_name, sheet = "2016", n_max = 0) %>%
 locations
 ```
 
-Now we have a character vector of locations. Let's read the rest of the data from the 2016 sheet, skipping the first row this time.
+Now we have a character vector of locations for the 2016 sheet. Let's read the rest of the data from the 2016 sheet, skipping the first row this time.
 
 ```{r message=FALSE}
 read_excel(file_name, sheet = "2016", skip = 1)
@@ -114,7 +114,7 @@ data_2016
 
 ### The trickiest part of tidying this data
 
-Finally, let's extract location, price, and quanity variables. This is the trickiest part of tidying this data because it involves gathering multiple variables and then spreading them again. We also add the year and order the variables.
+Finally, let's extract location, price, and quantity variables. This is the trickiest part of tidying this data because it involves gathering multiple variables and then spreading them again. We also add the year and order the variables.
 
 ```{r}
 data_2016 %>%
@@ -240,7 +240,7 @@ The main point of this vignette is to show how to tidy data an untidy spreadshee
 
 First, let's plot `price` and `quantity`.
 
-```{r}
+```{r fig.height=4}
 combined_df %>%
   ggplot(aes(price, quantity)) +
   geom_point() +
@@ -249,9 +249,9 @@ combined_df %>%
 
 Based on this plot, it appears higher prices are associated with greater quantities sold. Should management consider raising prices? Based on this plot, it doesn't look like higher prices would cause reduced sales.
 
-If we look at individual locations, we see something quite different.
+However, if we look at individual locations, we see something quite different.
 
-```{r}
+```{r fig.height=4, fig.width=6}
 combined_df %>%
   ggplot(aes(price, quantity)) +
   geom_point() +
@@ -263,7 +263,7 @@ When locations are considered separately, higher prices are associated with lowe
 
 Let's look at Noblesville by year.
 
-```{r}
+```{r fig.height=4, fig.width=6}
 combined_df %>%
   filter(location == "Noblesville") %>%
   ggplot(aes(price, quantity)) +
@@ -274,4 +274,4 @@ combined_df %>%
 
 So higher prices are associated with lower quantities even for Noblesville if we look at shorter time periods like a year.
 
-This phenomen where an association appears to exist in data, but disappears or even reverses when groups are analyzed separately, is known as [Simpson's Paradox](https://en.wikipedia.org/wiki/Simpson's_paradox). You can read more about at the link.
+This phenomenon where an association appears to exist in data as a whole, but disappears or even reverses when groups are analyzed separately, is known as [Simpson's Paradox](https://en.wikipedia.org/wiki/Simpson's_paradox). You can read more about at the link.
