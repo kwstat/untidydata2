@@ -6,3 +6,5 @@
 ^pkgdown$
 ^notes\.md$
 .github
+^doc$
+^Meta$
