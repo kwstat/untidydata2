@@ -4,7 +4,7 @@ Homepage: https://kwstat.github.io/untidydata2
 
 Repository: https://github.com/kwstat/untidydata2
 
-The package contains five vignettes that each present an untidy dataset and show how to make it tidy.
+This package contaings several vignettes that each present an untidy dataset and show how to make it tidy:
 
 1. "Cost of publishing in journals"
 2. "Gross Domestic Product"
@@ -14,7 +14,7 @@ The package contains five vignettes that each present an untidy dataset and show
 
 The vignettes are written by different authors, and present an interesting set of examples in different writing and coding styles.
 
-This package was created during the [2019 unCoast unConference](https://github.com/uncoast-unconf/uu-2019).
+This package was created during the [2019 Uncoast Unconference](https://github.com/uncoast-unconf/uu-2019).
 
 ## Installation
 
