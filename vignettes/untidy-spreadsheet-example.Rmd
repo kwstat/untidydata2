@@ -2,7 +2,8 @@
 title: "Untidy Spreadsheet Data"
 author: "David W. Body"
 date: "4/16/2019"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Untidy spreadsheet}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,7 +14,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Working with untidy spreadsheet data
+# Raw data
 
 This vignette is about working with an untidy spreadsheet of simulated sales data for a fictitious company with multiple locations in Indiana. The document presents several challenges we often encounter with real spreadsheets, including:
 
