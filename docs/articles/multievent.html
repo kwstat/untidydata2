@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Preparing multiple event data for analysis • untidydata2</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Preparing multiple event data for analysis">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -53,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/example_hypoxia.html">Hypoxia Details</a>
+      <a href="../articles/gdp.html">Gross Domestic Product data</a>
     </li>
     <li>
-      <a href="../articles/gdp_by_county.html">U.S. GDP</a>
+      <a href="../articles/hypoxia.html">Hypoxia Data</a>
     </li>
     <li>
       <a href="../articles/journal_cost.html">Cost of publishing in journals</a>
@@ -76,13 +77,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Preparing multiple event data for analysis</h1>
                         <h4 class="author">Anne Eaton</h4>
             
-            <h4 class="date">2019-04-16</h4>
+            <h4 class="date">2019-09-13</h4>
       
       
       <div class="hidden name"><code>multievent.Rmd</code></div>
@@ -92,14 +94,14 @@
     
     
 <p>There are many approaches for analyzing data that tracks multiple events ocurring over time, either multiple types of events or repeated ocurrences of the same type of event. The great news is that most of these approaches are implemented in R packages. The not-as-great news is that different packages expect your data to be input in different formats. The aim of this vignette is to show you how to use <code>dplyr</code> to get your data into the format needed for common approaches and packages for multievent data.</p>
-<div id="wide-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#wide-data" class="anchor"></a>Wide data</h2>
+<div id="raw-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#raw-data" class="anchor"></a>Raw data</h1>
 <p>We will start from “wide” data. In this data, each row is a patient. <code>ID</code> represents a unique patient ID. Each patient had up to 8 clinic visits, and <code>t1</code> through <code>t8</code> represent the time from enrollment until each clinic visit (in days). <code>x1</code> through <code>x8</code> represent the patient’s status at time of the correpsonding visit, with <code>1</code> indicating that the patient was progression free and <code>2</code> representing the patient had experienced progression. (For patients that had fewer that 8 visits, the <code>t.</code> and <code>x.</code> varaibles are filled in with <code>NA</code>.) <code>dtime</code> represents the time (in days) from enrollment until the patient died or was lost to followup, and <code>dstatus</code> is an indicator for death. Patients with <code>dstatus</code>=1 diead at their <code>dtime</code> time. Patients with <code>dstatus</code>=0 were followed until their <code>dtime</code> time and were still alive at that time, but we don’t know what happened to them after that.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">datfile &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"messydata"</span>, <span class="st">"multievent.csv"</span>, <span class="dt">package=</span><span class="st">"untidydata2"</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">multievent&lt;-<span class="kw">as.tibble</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/read.table">read.csv</a></span>(datfile))</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#&gt; This warning is displayed once per session.</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">datfile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"messydata"</span>, <span class="st">"multievent.csv"</span>, <span class="dt">package=</span><span class="st">"untidydata2"</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2">multievent&lt;-<span class="kw">as.tibble</span>(<span class="kw"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(datfile))</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co">#&gt; Warning: `as.tibble()` is deprecated, use `as_tibble()` (but mind the new semantics).</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; This warning is displayed once per session.</span></a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">ID</th>
@@ -252,6 +254,9 @@
 </tbody>
 </table>
 </div>
+<div id="tidying-the-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#tidying-the-data" class="anchor"></a>Tidying the data</h1>
 <div id="survival-package---overall-survival-endpoint" class="section level2">
 <h2 class="hasAnchor">
 <a href="#survival-package---overall-survival-endpoint" class="anchor"></a>survival package - overall survival endpoint</h2>
@@ -300,34 +305,34 @@
 <h2 class="hasAnchor">
 <a href="#survival-package---observed-progression-free-survival-endpoint" class="anchor"></a>survival package - observed progression-free survival endpoint</h2>
 <p>Composite endpoints are often used to analyze data with multiple event types. In this dataset, we may be interested in defining a progression/death composite endpoint. To analyze this endpoint, we still need a dataset with one row per patient; all we need to do is define two new variables, which we will call <code>opfstime</code> and <code>opfsevent</code>. <code>opfstime</code> represents, for each patient, the earliest of either death or observed progression, and <code>opfsevent</code> represents an indicator variable that is equal to 1 if a patient progression or died, and equal to 0 if they were alive and progression free at the end of followup.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">multievent <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co"># Make two variables. The one called "key" stores the variable names "t1","t2", up to "x8" . The one called "value" stores the corresponding values, number of days or status (1/2). </span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="st">  </span><span class="kw">gather</span>(key, value, t1<span class="op">:</span>x8) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co"># Define the variable "visit" by pulling the number from the string in key</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">visit =</span> <span class="kw">parse_number</span>(key),</a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># Define the varialbe "type" by pulling the letter from the string in key</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">         <span class="dt">type =</span> <span class="kw">str_sub</span>(key, <span class="dv">1</span>, <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co"># Delete the key variable</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9">         <span class="dt">key =</span> <span class="ot">NULL</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co"># Make a new column for each unique value of type, x or t, and make the value of the new variable equal to value </span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="st">  </span><span class="kw">spread</span>(type, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co"># Replace NAs in x (indicating no visit) with 0</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(x), <span class="dv">0</span>, x)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co"># Group by ID and status at visit</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="st">  </span><span class="kw">group_by</span>(ID, x) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co"># Make a counter variable which counts up from 1 within each ID/status group</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">count =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co"># Only keep the first row within each ID/status group</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(count <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co"># Redefine grouping to be by ID only</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="st">  </span><span class="kw">group_by</span>(ID) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co"># Keep only rows for each person's max status. If they ever had 2, we will have that row. Otherwise, we will have have a single row for each person with status 0 or 1. </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/filter">filter</a></span>(x <span class="op">==</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(x)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co"># Take out the x and count variables. </span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="st">  </span><span class="kw">select</span>(ID, dtime, dstatus, t) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co"># Define the opfstime and opfsevent variables.   </span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">opfstime =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(t), dtime, t), </a>
-<a class="sourceLine" id="cb2-28" data-line-number="28">         <span class="dt">opfsevent =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NA">is.na</a></span>(t), <span class="dv">1</span>, dstatus)) -&gt;<span class="st"> </span>composite</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">multievent <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="co"># Make two variables. The one called "key" stores the variable names "t1","t2", up to "x8" . The one called "value" stores the corresponding values, number of days or status (1/2). </span></a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="st">  </span><span class="kw">gather</span>(key, value, t1<span class="op">:</span>x8) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co"># Define the variable "visit" by pulling the number from the string in key</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">visit =</span> <span class="kw">parse_number</span>(key),</a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co"># Define the varialbe "type" by pulling the letter from the string in key</span></a>
+<a class="sourceLine" id="cb2-7" title="7">         <span class="dt">type =</span> <span class="kw">str_sub</span>(key, <span class="dv">1</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co"># Delete the key variable</span></a>
+<a class="sourceLine" id="cb2-9" title="9">         <span class="dt">key =</span> <span class="ot">NULL</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co"># Make a new column for each unique value of type, x or t, and make the value of the new variable equal to value </span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="st">  </span><span class="kw">spread</span>(type, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co"># Replace NAs in x (indicating no visit) with 0</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">x =</span> <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(x), <span class="dv">0</span>, x)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co"># Group by ID and status at visit</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="st">  </span><span class="kw">group_by</span>(ID, x) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co"># Make a counter variable which counts up from 1 within each ID/status group</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">count =</span> <span class="dv">1</span><span class="op">:</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co"># Only keep the first row within each ID/status group</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(count <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co"># Redefine grouping to be by ID only</span></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="st">  </span><span class="kw">group_by</span>(ID) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="co"># Keep only rows for each person's max status. If they ever had 2, we will have that row. Otherwise, we will have have a single row for each person with status 0 or 1. </span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(x <span class="op">==</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(x)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co"># Take out the x and count variables. </span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="st">  </span><span class="kw">select</span>(ID, dtime, dstatus, t) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="co"># Define the opfstime and opfsevent variables.   </span></a>
+<a class="sourceLine" id="cb2-27" title="27"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">opfstime =</span> <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(t), dtime, t), </a>
+<a class="sourceLine" id="cb2-28" title="28">         <span class="dt">opfsevent =</span> <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(t), <span class="dv">1</span>, dstatus)) -&gt;<span class="st"> </span>composite</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">ID</th>
@@ -368,16 +373,22 @@
 </tbody>
 </table>
 </div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#wide-data">Wide data</a></li>
-      <li><a href="#survival-package---overall-survival-endpoint">survival package - overall survival endpoint</a></li>
+<li><a href="#raw-data">Raw data</a></li>
+      <li>
+<a href="#tidying-the-data">Tidying the data</a><ul class="nav nav-pills nav-stacked">
+<li><a href="#survival-package---overall-survival-endpoint">survival package - overall survival endpoint</a></li>
       <li><a href="#survival-package---observed-progression-free-survival-endpoint">survival package - observed progression-free survival endpoint</a></li>
+      </ul>
+</li>
       </ul>
 </div>
       </div>
@@ -385,17 +396,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
-  <p>Developed by Anne Eaton, Giorgi Chighladze, Kevin Wright.</p>
+  <p>Developed by David Body, Giorgi Chighladze, Anne Eaton, Kevin Wright.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

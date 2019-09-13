@@ -5,3 +5,5 @@
 ^docs$
 ^pkgdown$
 ^notes\.md$
+.git
+.github

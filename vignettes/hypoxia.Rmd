@@ -1,10 +1,9 @@
 ---
-title: "Hypoxia Details"
+title: "Hypoxia Data"
 author: "Giorgi Chighladze"
 date: "`r Sys.Date()`"
 output: 
-  rmarkdown::html_vignette:
-    keep_md: true
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Hypoxia Details}
   %\VignetteEngine{knitr::rmarkdown}
@@ -13,11 +12,25 @@ vignette: >
 
 Data do not always come in a format that you can readily use for analysis. Some cleaning and restructuring of data is often needed despite of the size of the dataset.
 
-## Data 
+# Raw data
 
 This [data](https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-09-18) was downloaded 15 Apr 2019 from [TidyTuesday](https://github.com/rfordatascience/tidytuesday).
+The full description of the data are here: [https://github.com/rfordatascience/tidytuesday/files/2343596/Hypoxia.Article.proof.pdf](https://github.com/rfordatascience/tidytuesday/files/2343596/Hypoxia.Article.proof.pdf).
 
-NEED SOME DESCRIPTION OF THE DATA and PROBLEMS IT HAS...
+Briefly, the data:
+
+```
+X1 - Dummy. Row number.
+Altitude - Altitude.
+Air press - Air pressure.
+ppO2 - Part of pressure related to oxygen.
+Alv pO2 - Pressure of O2 in lungs.
+% sat O2 - Percentage of hemoglobin molecules with O2.
+Alv pCO2 - Pressure of carbion dioxide in lungs.
+Alv pO2 with O2=100% - Maximum O2 pressure in lungs without mask.
+% sat O2_1 - Best saturation possible without mask.
+Alv pCO2_1 - Pressure of CO2 in lungs with 100% O2.
+```
 
 Before looking at the data, make sure that we do not missinterpret any entry when reading the file. For csv and txt files it is safe to read each columns as text. Also, it is good practice to read only the first few rows (5 in this case) of data for this purpose. 
 
@@ -28,7 +41,7 @@ read_csv(datfile, col_types = cols(.default = "c"), n_max = 5) %>%
   knitr::kable()
 ```
 
-## Problems
+# Problems
 
 There are several problems that one can note at first glance. 
 
@@ -39,7 +52,7 @@ There are several problems that one can note at first glance.
 - last three variables are the same as previous 3 columns, but at different oxygen content (percentge)
 
 
-## Tidying Data
+# Tidying the data
 
 First we need to fix the variable names. The best way is to manually define each variable name after reading the data without column names. Since the last 6 columns represent the same variable measured at different oxygen levels, we will incorporate this piece of info in the variable names (and use later when reshaping the data).
 
@@ -77,11 +90,9 @@ tidy_data <- data %>%
 knitr::kable(tidy_data)
 ```
 
+# Plot
 
-
-## Figures
-
-Lets plot the data. 
+We can plot some data.
 
 ```{r, fig.show = 'hold', fig.width = 5 }
 tidy_data %>%
@@ -91,4 +102,4 @@ tidy_data %>%
   theme_light()
 ```
 
-
+As an airplane pilot flies at higher altitudes, the pressure of oxygen in the lungs decreases.

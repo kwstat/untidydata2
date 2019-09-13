@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hypoxia Details • untidydata2</title>
+<title>Hypoxia Data • untidydata2</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Hypoxia Details">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Hypoxia Data">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -54,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/example_hypoxia.html">Hypoxia Details</a>
+      <a href="../articles/gdp.html">Gross Domestic Product data</a>
     </li>
     <li>
-      <a href="../articles/gdp_by_county.html">U.S. GDP</a>
+      <a href="../articles/hypoxia.html">Hypoxia Data</a>
     </li>
     <li>
       <a href="../articles/journal_cost.html">Cost of publishing in journals</a>
@@ -81,29 +81,39 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Hypoxia Details</h1>
+      <h1>Hypoxia Data</h1>
                         <h4 class="author">Giorgi Chighladze</h4>
             
             <h4 class="date">2019-09-13</h4>
       
       
-      <div class="hidden name"><code>example_hypoxia.Rmd</code></div>
+      <div class="hidden name"><code>hypoxia.Rmd</code></div>
 
     </div>
 
     
     
 <p>Data do not always come in a format that you can readily use for analysis. Some cleaning and restructuring of data is often needed despite of the size of the dataset.</p>
-<div id="data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data" class="anchor"></a>Data</h2>
-<p>This <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-09-18">data</a> was downloaded 15 Apr 2019 from <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a>.</p>
-<p>NEED SOME DESCRIPTION OF THE DATA and PROBLEMS IT HAS…</p>
+<div id="raw-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#raw-data" class="anchor"></a>Raw data</h1>
+<p>This <a href="https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-09-18">data</a> was downloaded 15 Apr 2019 from <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a>. The full description of the data are here: <a href="https://github.com/rfordatascience/tidytuesday/files/2343596/Hypoxia.Article.proof.pdf">https://github.com/rfordatascience/tidytuesday/files/2343596/Hypoxia.Article.proof.pdf</a>.</p>
+<p>Briefly, the data:</p>
+<pre><code>X1 - Dummy. Row number.
+Altitude - Altitude.
+Air press - Air pressure.
+ppO2 - Part of pressure related to oxygen.
+Alv pO2 - Pressure of O2 in lungs.
+% sat O2 - Percentage of hemoglobin molecules with O2.
+Alv pCO2 - Pressure of carbion dioxide in lungs.
+Alv pO2 with O2=100% - Maximum O2 pressure in lungs without mask.
+% sat O2_1 - Best saturation possible without mask.
+Alv pCO2_1 - Pressure of CO2 in lungs with 100% O2.</code></pre>
 <p>Before looking at the data, make sure that we do not missinterpret any entry when reading the file. For csv and txt files it is safe to read each columns as text. Also, it is good practice to read only the first few rows (5 in this case) of data for this purpose.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
-<a class="sourceLine" id="cb1-2" title="2">datfile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"messydata"</span>, <span class="st">"hypoxia.csv"</span>, <span class="dt">package=</span><span class="st">"untidydata2"</span>)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw">read_csv</span>(datfile, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">.default =</span> <span class="st">"c"</span>), <span class="dt">n_max =</span> <span class="dv">5</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
+<a class="sourceLine" id="cb2-2" title="2">datfile &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"messydata"</span>, <span class="st">"hypoxia.csv"</span>, <span class="dt">package=</span><span class="st">"untidydata2"</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="kw">read_csv</span>(datfile, <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">.default =</span> <span class="st">"c"</span>), <span class="dt">n_max =</span> <span class="dv">5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="st">  </span>knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">X1</th>
@@ -181,9 +191,9 @@
 </tbody>
 </table>
 </div>
-<div id="problems" class="section level2">
-<h2 class="hasAnchor">
-<a href="#problems" class="anchor"></a>Problems</h2>
+<div id="problems" class="section level1">
+<h1 class="hasAnchor">
+<a href="#problems" class="anchor"></a>Problems</h1>
 <p>There are several problems that one can note at first glance.</p>
 <ul>
 <li>variable description is included in the first row</li>
@@ -193,35 +203,35 @@
 <li>last three variables are the same as previous 3 columns, but at different oxygen content (percentge)</li>
 </ul>
 </div>
-<div id="tidying-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tidying-data" class="anchor"></a>Tidying Data</h2>
+<div id="tidying-the-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#tidying-the-data" class="anchor"></a>Tidying the data</h1>
 <p>First we need to fix the variable names. The best way is to manually define each variable name after reading the data without column names. Since the last 6 columns represent the same variable measured at different oxygen levels, we will incorporate this piece of info in the variable names (and use later when reshaping the data).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(datfile, </a>
-<a class="sourceLine" id="cb2-2" title="2">                 <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">.default =</span> <span class="st">"?"</span>), </a>
-<a class="sourceLine" id="cb2-3" title="3">                 <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb2-4" title="4">                 <span class="dt">skip =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="st">  </span><span class="co"># remove first cloumn </span></a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="st">  </span><span class="co"># set names of variables </span></a>
-<a class="sourceLine" id="cb2-8" title="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'altitude'</span>, <span class="st">'air_pressure'</span>, <span class="st">'ppO2'</span>, </a>
-<a class="sourceLine" id="cb2-9" title="9">              <span class="st">'alveoli_pO2-21'</span>, <span class="st">'sturation_O2-21'</span>, <span class="st">'alveoli_pCO2-21'</span>,</a>
-<a class="sourceLine" id="cb2-10" title="10">              <span class="st">'alveoli_pO2-100'</span>, <span class="st">'sturation_O2-100'</span>, <span class="st">'alveoli_pCO2-100'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(datfile, </a>
+<a class="sourceLine" id="cb3-2" title="2">                 <span class="dt">col_types =</span> <span class="kw">cols</span>(<span class="dt">.default =</span> <span class="st">"?"</span>), </a>
+<a class="sourceLine" id="cb3-3" title="3">                 <span class="dt">col_names =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb3-4" title="4">                 <span class="dt">skip =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span><span class="co"># remove first cloumn </span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="co"># set names of variables </span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="st">  </span><span class="kw">set_names</span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'altitude'</span>, <span class="st">'air_pressure'</span>, <span class="st">'ppO2'</span>, </a>
+<a class="sourceLine" id="cb3-9" title="9">              <span class="st">'alveoli_pO2-21'</span>, <span class="st">'sturation_O2-21'</span>, <span class="st">'alveoli_pCO2-21'</span>,</a>
+<a class="sourceLine" id="cb3-10" title="10">              <span class="st">'alveoli_pO2-100'</span>, <span class="st">'sturation_O2-100'</span>, <span class="st">'alveoli_pCO2-100'</span>))</a></code></pre></div>
 <p>After reading the data we will address remaining problems listed as follow:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">tidy_data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="co"># set 'Sea level' as 0 ft and 0 m in format matching the other records in altitude</span></a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">altitude =</span> <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(altitude <span class="op">==</span><span class="st"> 'Sea level'</span>, <span class="st">'0k/0k'</span>, altitude)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="co"># split altitude data into columns corresponding to each unit of measurement</span></a>
-<a class="sourceLine" id="cb3-5" title="5"><span class="st">  </span><span class="kw">separate</span>(altitude, <span class="dt">into =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'altitude_ft'</span>, <span class="st">'altitude_m'</span>), <span class="dt">sep =</span> <span class="st">'/'</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-6" title="6"><span class="st">  </span><span class="co"># convert altitude into numeric data by taking into account k</span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="kw">starts_with</span>(<span class="st">'altitude'</span>)), parse_number) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-8" title="8"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="kw">starts_with</span>(<span class="st">'altitude'</span>)), <span class="kw">funs</span>(. <span class="op">*</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-9" title="9"><span class="st">  </span><span class="co"># handle last 6 columns</span></a>
-<a class="sourceLine" id="cb3-10" title="10"><span class="st">  </span><span class="kw">gather</span>(key, value, <span class="dv">5</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="st">  </span><span class="co"># extract oxygen level (that was incorporated into the variable name earlier)</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="st">  </span><span class="kw">separate</span>(key, <span class="dt">into =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'variable'</span>, <span class="st">'O2'</span>), <span class="dt">sep =</span> <span class="st">'-'</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="st">  </span><span class="kw">spread</span>(variable, value) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="st">  </span><span class="kw">arrange</span>(O2, altitude_ft)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">tidy_data &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="st">  </span><span class="co"># set 'Sea level' as 0 ft and 0 m in format matching the other records in altitude</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">altitude =</span> <span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(altitude <span class="op">==</span><span class="st"> 'Sea level'</span>, <span class="st">'0k/0k'</span>, altitude)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span><span class="co"># split altitude data into columns corresponding to each unit of measurement</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="st">  </span><span class="kw">separate</span>(altitude, <span class="dt">into =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'altitude_ft'</span>, <span class="st">'altitude_m'</span>), <span class="dt">sep =</span> <span class="st">'/'</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="st">  </span><span class="co"># convert altitude into numeric data by taking into account k</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="kw">starts_with</span>(<span class="st">'altitude'</span>)), parse_number) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="st">  </span><span class="kw">mutate_at</span>(<span class="kw">vars</span>(<span class="kw">starts_with</span>(<span class="st">'altitude'</span>)), <span class="kw">funs</span>(. <span class="op">*</span><span class="st"> </span><span class="dv">1000</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="st">  </span><span class="co"># handle last 6 columns</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="st">  </span><span class="kw">gather</span>(key, value, <span class="dv">5</span><span class="op">:</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="st">  </span><span class="co"># extract oxygen level (that was incorporated into the variable name earlier)</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="st">  </span><span class="kw">separate</span>(key, <span class="dt">into =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'variable'</span>, <span class="st">'O2'</span>), <span class="dt">sep =</span> <span class="st">'-'</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="st">  </span><span class="kw">spread</span>(variable, value) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="st">  </span><span class="kw">arrange</span>(O2, altitude_ft)</a></code></pre></div>
 <pre><code>## Warning: funs() is soft deprecated as of dplyr 0.8.0
 ## Please use a list of either functions or lambdas: 
 ## 
@@ -234,7 +244,7 @@
 ##   # Using lambdas
 ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
 ## This warning is displayed once per session.</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(tidy_data)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>(tidy_data)</a></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">altitude_ft</th>
@@ -370,16 +380,17 @@
 </tbody>
 </table>
 </div>
-<div id="figures" class="section level2">
-<h2 class="hasAnchor">
-<a href="#figures" class="anchor"></a>Figures</h2>
-<p>Lets plot the data.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">tidy_data <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">O2 =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(O2, <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">21</span>, <span class="dv">100</span>), <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'21%'</span>, <span class="st">'100%'</span>))) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb6-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> alveoli_pO2, <span class="dt">y =</span> altitude_m)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> O2), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="st">  </span><span class="kw">theme_light</span>()</a></code></pre></div>
-<p><img src="example_hypoxia_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
+<div id="plot" class="section level1">
+<h1 class="hasAnchor">
+<a href="#plot" class="anchor"></a>Plot</h1>
+<p>We can plot some data.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">tidy_data <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">O2 =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">factor</a></span>(O2, <span class="dt">levels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">21</span>, <span class="dv">100</span>), <span class="dt">labels =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'21%'</span>, <span class="st">'100%'</span>))) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> alveoli_pO2, <span class="dt">y =</span> altitude_m)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> O2), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="st">  </span><span class="kw">theme_light</span>()</a></code></pre></div>
+<p><img src="hypoxia_files/figure-html/unnamed-chunk-4-1.png" width="480"></p>
+<p>As an airplane pilot flies at higher altitudes, the pressure of oxygen in the lungs decreases.</p>
 </div>
   </div>
 
@@ -389,10 +400,10 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#data">Data</a></li>
+<li><a href="#raw-data">Raw data</a></li>
       <li><a href="#problems">Problems</a></li>
-      <li><a href="#tidying-data">Tidying Data</a></li>
-      <li><a href="#figures">Figures</a></li>
+      <li><a href="#tidying-the-data">Tidying the data</a></li>
+      <li><a href="#plot">Plot</a></li>
       </ul>
 </div>
       </div>
@@ -402,7 +413,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Anne Eaton, Giorgi Chighladze, Kevin Wright.</p>
+  <p>Developed by David Body, Giorgi Chighladze, Anne Eaton, Kevin Wright.</p>
 </div>
 
 <div class="pkgdown">

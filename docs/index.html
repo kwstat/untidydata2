@@ -7,10 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Untidy data • untidydata2</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Untidy data">
-<meta property="og:description" content="What the package does (one paragraph).">
+<meta property="og:description" content="Four vignettes showing how to change messy data into tidy data.">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -18,7 +19,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-article">
+    <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -53,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/example_hypoxia.html">Hypoxia Details</a>
+      <a href="articles/gdp.html">Gross Domestic Product data</a>
     </li>
     <li>
-      <a href="articles/gdp_by_county.html">U.S. GDP</a>
+      <a href="articles/hypoxia.html">Hypoxia Data</a>
     </li>
     <li>
       <a href="articles/journal_cost.html">Cost of publishing in journals</a>
@@ -76,35 +77,29 @@
 <!--/.navbar -->
 
       
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    
 
-    
-    
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-<div id="vignettes" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#vignettes" class="anchor"></a>Vignettes</h1></div>
-<ol style="list-style-type: decimal">
-<li>“Cost of publishing in journals”</li>
-<li>“US GDP”</li>
-<li>“Hypoxia”</li>
-</ol>
-</div>
+      </header><div class="row">
+  <div class="contents col-md-9">
 <div id="untidydata2" class="section level1">
-<h1 class="hasAnchor">
-<a href="#untidydata2" class="anchor"></a>untidydata2</h1>
-<p>The goal of untidydata2 is to provide a collection of untidy data, and show how to make it tidy.</p>
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#untidydata2" class="anchor"></a>untidydata2</h1></div>
+<p>Homepage: <a href="https://kwstat.github.io/untidydata2" class="uri">https://kwstat.github.io/untidydata2</a></p>
+<p>Repository: <a href="https://github.com/kwstat/untidydata2" class="uri">https://github.com/kwstat/untidydata2</a></p>
+<p>The package contains four vignettes that each present an untidy dataset and show how to make it tidy.</p>
+<p>The vignettes are written by different authors, and present an interesting set of examples in different writing and coding styles.</p>
+<p>This package was created during the <a href="https://github.com/uncoast-unconf/uu-2019">2019 unCoast unConference</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="co"># Install the development version from GitHub:</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<a class="sourceLine" id="cb1-4" title="4">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"kwstat/untidydata2"</span>)</a></code></pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="usage" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(untidydata2)</a></code></pre></div>
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>See the package vignettes.</p>
 </div>
 </div>
   </div>
@@ -119,28 +114,30 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Anne Eaton <br><small class="roles"> Author </small>  </li>
+<li>David Body <br><small class="roles"> Author </small>  </li>
 <li>Giorgi Chighladze <br><small class="roles"> Author </small>  </li>
-<li>Kevin Wright <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0617-8673" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID" height="16"></a> </li>
+<li>Anne Eaton <br><small class="roles"> Author </small>  </li>
+<li>Kevin Wright <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-0617-8673" target="orcid.widget"><img src="https://members.orcid.org/sites/default/files/vector_iD_icon.svg" class="orcid" alt="ORCID"></a> </li>
 </ul>
 </div>
 
-      </div>
-
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Anne Eaton, Giorgi Chighladze, Kevin Wright.</p>
+  <p>Developed by David Body, Giorgi Chighladze, Anne Eaton, Kevin Wright.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

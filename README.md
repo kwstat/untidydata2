@@ -1,25 +1,23 @@
-Untidydata2
-================
-
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# Vignettes
-
-1.  “Cost of publishing in journals”
-2.  “US GDP”
-3.  “Hypoxia”
-
 # untidydata2
 
-The goal of untidydata2 is to provide a collection of untidy data, and
-show how to make it tidy.
+Homepage: https://kwstat.github.io/untidydata2
+
+Repository: https://github.com/kwstat/untidydata2
+
+The package contains four vignettes that each present an untidy dataset and show how to make it tidy.
+
+The vignettes are written by different authors, and present an interesting set of examples in different writing and coding styles.
+
+This package was created during the [2019 unCoast unConference](https://github.com/uncoast-unconf/uu-2019).
 
 ## Installation
 
-## Example
+```R
 
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(untidydata2)
+# Install the development version from GitHub:
+install.packages("devtools")
+devtools::install_github("kwstat/untidydata2")
 ```
+## Usage
+
+See the package vignettes.

@@ -2,13 +2,16 @@
 title: "Cost of publishing in journals"
 author: "Kevin Wright"
 date: "4/15/2019"
-output: html_vignette
+output: 
+  rmarkdown::html_vignette
 bibliography: bibinfo.bib
 vignette: >
   %\VignetteIndexEntry{Cost of publishing in journals}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
+# Raw data
 
 This data was downloaded 15 Apr 2019 from https://figshare.com/articles/Wellcome_Trust_APC_spend_2012_13_data_file/963054.
 See @Kiley2014wellcome. License: CC-BY.
@@ -20,6 +23,7 @@ library(readxl)
 datfile <- system.file("messydata", "University_returns_for_figshare_FINAL.xlsx", package="untidydata2")
 dat <- read_excel(datfile)
 ```
+# Tidying the data
 
 First thing I always do when exploring data is change the variable names to be nice. No spaces, all lowercase, short, distinct. This makes typing more pleasant while exploring the data.
 
@@ -92,7 +96,8 @@ unique(na.omit(str_extract(dat$publisher, regex("elsevier.*", ignore_case=TRUE))
 ```
 
 At this point, in the spirit of getting things done fast (if not elegantly), I would probably perform the following steps:
-1. Extract all the unique publisher values
+
+1. Extract all the *unique* publisher values
 2. Export to a CSV file called "publishers_cleaned.csv"
 3. Open the CSV file in Excel (or other tool)
 4. Add a second-column with my hand-entered, best-judgement of a standard publisher name
@@ -100,6 +105,8 @@ At this point, in the spirit of getting things done fast (if not elegantly), I w
 6. Lookup the original publisher name in the `publishers_cleaned` data and return the standard name.
 
 Again, it's not elegant, and it would not scale up very well to the journal names (which have even more categories!). There is actually an add-in tool in Excel which can help with this task: https://www.microsoft.com/en-us/research/project/transform-data-by-example/.
+
+# Plot
 
 Eventually, we might like to look at how costs vary among publishers.  For now, here's a simple density plot of all the article costs.
 

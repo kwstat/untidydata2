@@ -2,15 +2,17 @@ Package: untidydata2
 Title: Untidy data
 Version: 0.1
 Authors@R: c(
-    person(given ="Anne", family="Eaton", role=c("aut")),
+    person(given = "David", family="Body", role=c("aut")),
     person(given = "Giorgi", family="Chighladze", role=c("aut")),
+    person(given ="Anne", family="Eaton", role=c("aut")),
     person(given = "Kevin", family = "Wright",
            role = c("aut", "cre"),
            email = "kw.stat@gmail.com",
            comment = c(ORCID = "0000-0002-0617-8673"))
            )
-Description: What the package does (one paragraph).
+Description: Four vignettes showing how to change messy data into tidy data.
 Suggests: dplyr, knitr, maps, plotrix, readr, readxl, stringr, tidyr, tidyverse
+URL: http://kwstat.github.io/untidydata2/
 License: GPL-3
 Encoding: UTF-8
 LazyData: TRUE

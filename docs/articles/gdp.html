@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>U.S. GDP • untidydata2</title>
+<title>Gross Domestic Product data • untidydata2</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="U.S. GDP">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Gross Domestic Product data">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -54,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/example_hypoxia.html">Hypoxia Details</a>
+      <a href="../articles/gdp.html">Gross Domestic Product data</a>
     </li>
     <li>
-      <a href="../articles/gdp_by_county.html">U.S. GDP</a>
+      <a href="../articles/hypoxia.html">Hypoxia Data</a>
     </li>
     <li>
       <a href="../articles/journal_cost.html">Cost of publishing in journals</a>
@@ -81,21 +81,24 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>U.S. GDP</h1>
+      <h1>Gross Domestic Product data</h1>
                         <h4 class="author">Kevin Wright</h4>
             
             <h4 class="date">2019-09-13</h4>
       
       
-      <div class="hidden name"><code>gdp_by_county.Rmd</code></div>
+      <div class="hidden name"><code>gdp.Rmd</code></div>
 
     </div>
 
     
     
+<div id="raw-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#raw-data" class="anchor"></a>Raw data</h1>
 <p>The data for this exercise was found here: <a href="https://www.bea.gov/news/2018/prototype-gross-domestic-product-county-2012-2015" class="uri">https://www.bea.gov/news/2018/prototype-gross-domestic-product-county-2012-2015</a></p>
 <p>There are a couple of Excel spreadsheets to choose from. We chose the “Data Table for GDP by County”. The data was downloaded 16 Apr 2019 from: <a href="https://www.bea.gov/system/files/2018-12/GCP_Release_1.xlsx" class="uri">https://www.bea.gov/system/files/2018-12/GCP_Release_1.xlsx</a>.</p>
-<p>Here’s a screenshot of the file open in Excel.</p>
+<p>Here’s a screenshot of the file open in Excel:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">knitr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/knitr/man/include_graphics.html">include_graphics</a></span>(<span class="st">"gdp_excel.png"</span>)</a></code></pre></div>
 <p><img src="gdp_excel.png"><!-- --></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(untidydata2)</a>
@@ -106,6 +109,10 @@
 <a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt; * `` -&gt; ...7</span></a>
 <a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt; * `` -&gt; ...8</span></a>
 <a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt; * `` -&gt; ...9</span></a></code></pre></div>
+</div>
+<div id="tidying-the-data" class="section level1">
+<h1 class="hasAnchor">
+<a href="#tidying-the-data" class="anchor"></a>Tidying the data</h1>
 <p>The Excel file has mutliple header rows. Based on a little experimentation, we drop the first two rows and manually assign column names.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">dat &lt;-<span class="st"> </span>dat[<span class="op">-</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>),]</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(dat) &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"fips"</span>,<span class="st">"county"</span>,<span class="st">"state"</span>,<span class="st">"item"</span>,<span class="st">"sector"</span>,<span class="st">"gdp2012"</span>,<span class="st">"gdp2013"</span>,<span class="st">"gdp2014"</span>,<span class="st">"gdp2015"</span>)</a>
@@ -140,8 +147,14 @@
 <a class="sourceLine" id="cb5-6" title="6">dat &lt;-<span class="st"> </span><span class="kw">select</span>(dat, <span class="op">-</span>key, <span class="op">-</span>item)</a>
 <a class="sourceLine" id="cb5-7" title="7">dat &lt;-<span class="st"> </span><span class="kw">mutate</span>(dat, <span class="dt">year=</span><span class="kw"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(year)) <span class="co"># so 'spread' will treat it as ID</span></a>
 <a class="sourceLine" id="cb5-8" title="8">dat &lt;-<span class="st"> </span><span class="kw">spread</span>(dat, sector, value) <span class="co"># turn sector column into multiple columns</span></a>
-<a class="sourceLine" id="cb5-9" title="9">dat &lt;-<span class="st"> </span><span class="kw">rename</span>(dat, <span class="dt">all=</span><span class="st">"All Industries"</span>, <span class="dt">govt=</span><span class="st">"Government and government enterprises"</span>,</a>
-<a class="sourceLine" id="cb5-10" title="10">              <span class="dt">goods=</span><span class="st">"Private goods-producing industries"</span>, <span class="dt">service=</span><span class="st">"Private services-providing industries"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb5-9" title="9">dat &lt;-<span class="st"> </span><span class="kw">rename</span>(dat, <span class="dt">all=</span><span class="st">"All Industries"</span>, </a>
+<a class="sourceLine" id="cb5-10" title="10">    <span class="dt">govt=</span><span class="st">"Government and government enterprises"</span>,</a>
+<a class="sourceLine" id="cb5-11" title="11">    <span class="dt">goods=</span><span class="st">"Private goods-producing industries"</span>, </a>
+<a class="sourceLine" id="cb5-12" title="12">    <span class="dt">service=</span><span class="st">"Private services-providing industries"</span>)</a></code></pre></div>
+</div>
+<div id="plot" class="section level1">
+<h1 class="hasAnchor">
+<a href="#plot" class="anchor"></a>Plot</h1>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(maps)</a>
 <a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(dplyr)</a>
 <a class="sourceLine" id="cb6-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(plotrix) <span class="co"># for color.scale</span></a>
@@ -177,13 +190,23 @@
 <a class="sourceLine" id="cb6-33" title="33">polys &lt;-<span class="st"> </span><span class="kw">mutate</span>(polys,</a>
 <a class="sourceLine" id="cb6-34" title="34">                <span class="dt">col =</span> plotrix<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/plotrix/man/color.scale.html">color.scale</a></span>(gdpperpop, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>),<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>),<span class="dv">0</span>))</a>
 <a class="sourceLine" id="cb6-35" title="35"><span class="kw">map</span>(<span class="st">"county"</span>, <span class="dt">fill=</span><span class="ot">TRUE</span>, <span class="dt">col=</span>polys<span class="op">$</span>col)</a></code></pre></div>
-<p><img src="gdp_by_county_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
+<p><img src="gdp_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <p>Unfortunately, there’s no scale shown. The colors are horrible. Nothing interesting in this view.</p>
 <p>NEEDS WORK.</p>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
 
+        <div id="tocnav">
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+<li><a href="#raw-data">Raw data</a></li>
+      <li><a href="#tidying-the-data">Tidying the data</a></li>
+      <li><a href="#plot">Plot</a></li>
+      </ul>
+</div>
       </div>
 
 </div>
@@ -191,7 +214,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Anne Eaton, Giorgi Chighladze, Kevin Wright.</p>
+  <p>Developed by David Body, Giorgi Chighladze, Anne Eaton, Kevin Wright.</p>
 </div>
 
 <div class="pkgdown">

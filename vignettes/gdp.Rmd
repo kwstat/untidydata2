@@ -1,8 +1,9 @@
 ---
-title: "U.S. GDP"
+title: "Gross Domestic Product data"
 author: "Kevin Wright"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: 
+  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{U.S. GDP}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,12 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Raw data
+
 The data for this exercise was found here: https://www.bea.gov/news/2018/prototype-gross-domestic-product-county-2012-2015
 
 There are a couple of Excel spreadsheets to choose from. We chose the "Data Table for GDP by County".
 The data was downloaded 16 Apr 2019 from: https://www.bea.gov/system/files/2018-12/GCP_Release_1.xlsx.
 
-Here's a screenshot of the file open in Excel.
+Here's a screenshot of the file open in Excel:
 
 ```{r}
 knitr::include_graphics("gdp_excel.png")
@@ -33,6 +36,8 @@ library(readxl)
 datfile <- system.file("messydata", "gdp_by_county.xlsx", package="untidydata2")
 dat <- read_excel(datfile, "Current Dollar GDP")
 ```
+
+# Tidying the data
 
 The Excel file has mutliple header rows. Based on a little experimentation, we drop the first two rows and manually assign column names.
 
@@ -59,9 +64,13 @@ dat <- mutate(dat, year=readr::parse_number(key)) # extract year
 dat <- select(dat, -key, -item)
 dat <- mutate(dat, year=as.character(year)) # so 'spread' will treat it as ID
 dat <- spread(dat, sector, value) # turn sector column into multiple columns
-dat <- rename(dat, all="All Industries", govt="Government and government enterprises",
-              goods="Private goods-producing industries", service="Private services-providing industries")
+dat <- rename(dat, all="All Industries", 
+    govt="Government and government enterprises",
+    goods="Private goods-producing industries", 
+    service="Private services-providing industries")
 ```
+
+# Plot
 
 ```{r, fig.height=6, fig.width=6}
 library(maps)
