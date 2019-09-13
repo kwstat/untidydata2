@@ -7,3 +7,6 @@
 ^notes\.md$
 .git
 .github
+^doc$
+^Meta$
+
