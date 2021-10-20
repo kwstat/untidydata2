@@ -4,6 +4,8 @@ Homepage: https://kwstat.github.io/untidydata2
 
 Repository: https://github.com/kwstat/untidydata2
 
+## Key features
+
 This package contaings several vignettes that each present an untidy dataset and show how to make it tidy:
 
 1. "Cost of publishing in journals"
